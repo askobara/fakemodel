@@ -93,10 +93,38 @@ class ModelFactory extends BaseObject
         /** @var Model $model */
         $model = new $this->model;
 
-        $attributes = ArrayHelper::merge($this->getAttributesFromResolvers(), $attributes);
+        $attributes = $this->getRawAttributes($attributes);
         $model->setAttributes($attributes, false);
 
         return $model;
+    }
+
+    /**
+     * Create an array of raw attribute arrays.
+     *
+     * @param  array  $attributes
+     * @return mixed
+     */
+    public function raw(array $attributes = [])
+    {
+        $models = [];
+
+        for ($i = 0; $i < $this->amount; $i++) {
+            $models[] = $this->getRawAttributes($attributes);
+        }
+
+        return $this->getOneOrArray($models);
+    }
+
+    /**
+     * Get a raw attributes array for the model.
+     *
+     * @param  array  $attributes
+     * @return mixed
+     */
+    protected function getRawAttributes(array $attributes = [])
+    {
+        return ArrayHelper::merge($this->getAttributesFromResolvers(), $attributes);
     }
 
     /**

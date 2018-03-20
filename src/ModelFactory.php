@@ -91,7 +91,7 @@ class ModelFactory extends BaseObject
         $this->abortIfNotYiiModel();
 
         /** @var Model $model */
-        $model = new $this->model;
+        $model = Yii::createObject($this->model);
 
         $attributes = $this->getRawAttributes($attributes);
         $model->setAttributes($attributes, false);

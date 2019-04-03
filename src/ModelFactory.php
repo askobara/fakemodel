@@ -91,7 +91,7 @@ class ModelFactory extends BaseObject
         $this->abortIfNotYiiModel();
 
         /** @var Model $model */
-        $model = Yii::createObject($this->model);
+        $model = new $this->model;
 
         $attributes = $this->getRawAttributes($attributes);
         $model->setAttributes($attributes, false);
@@ -124,7 +124,26 @@ class ModelFactory extends BaseObject
      */
     protected function getRawAttributes(array $attributes = [])
     {
-        return ArrayHelper::merge($this->getAttributesFromResolvers(), $attributes);
+        $raw = ArrayHelper::merge($this->getAttributesFromResolvers(), $attributes);
+
+        return $this->uncoverFields($raw);
+    }
+
+    /**
+     * Go through array and call callable fields
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function uncoverFields(array $data): array
+    {
+        foreach ($data as $key => $value) {
+            if (!is_string($value) && is_callable($value)) {
+                $data[$key] = $value();
+            }
+        }
+
+        return $data;
     }
 
     /**

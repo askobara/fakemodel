@@ -27,20 +27,4 @@ abstract class BaseDefinitionResolver extends BaseObject implements Resolver
         return $this;
     }
 
-    /**
-     * Go through array and call callable fields
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function uncoverFields(array $data): array
-    {
-        foreach ($data as $key => $value) {
-            if (!is_string($value) && is_callable($value)) {
-                $data[$key] = $value();
-            }
-        }
-
-        return $data;
-    }
 }

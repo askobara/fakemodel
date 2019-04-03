@@ -34,8 +34,7 @@ class StatesResolver extends BaseDefinitionResolver
         $modelStates = $this->definitions[$className];
         foreach ($states as $state) {
             if (array_key_exists($state, $modelStates)) {
-                $stateDefinition = $this->uncoverFields($modelStates[$state]);
-                $ret = ArrayHelper::merge($ret, $stateDefinition);
+                $ret = ArrayHelper::merge($ret, $modelStates[$state]);
             }
         }
 

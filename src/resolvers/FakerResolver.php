@@ -38,8 +38,6 @@ class FakerResolver extends BaseDefinitionResolver
             }
         }
 
-        $fakeAttributes = array_merge($fakeAttributes, $this->uncoverFields($fakeAttributes));
-
         return $fakeAttributes;
     }
 
